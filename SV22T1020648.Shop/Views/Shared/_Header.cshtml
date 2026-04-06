@@ -1,0 +1,65 @@
+﻿@using SV22T1020648.Shop
+@using SV22T1020648.Models.Sales
+
+@{
+    var userData = User.GetUserData();
+}
+
+@{
+    // Lấy giỏ hàng từ Session thông qua ApplicationContext
+    var cart = ApplicationContext.GetSessionData<List<OrderDetailViewInfo>>("ShoppingCart");
+
+    // Đếm số lượng mặt hàng (Số dòng trong giỏ)
+    int cartItemCount = cart?.Count ?? 0;
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="~/">
+            <i class="bi bi-shop me-1"></i> VaShóp
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto align-items-center mt-3 mt-lg-0">
+                <li class="nav-item me-4">
+                    <a class="nav-link text-white position-relative" href="~/Order/ShoppingCart">
+                        <i class="bi bi-cart3 fs-5"></i> Giỏ hàng
+                        <span id="cart-count"
+                              class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger @(cartItemCount == 0 ? "d-none" : "")">
+                            @cartItemCount
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white border rounded px-3" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-1"></i>
+                        @* Hiển thị tên nếu đã đăng nhập, ngược lại hiện "Khách" *@
+                        Chào, @(userData != null ? userData.DisplayName : "Khách")!
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                        @if (userData == null)
+                        {
+                            @* Các Action dành cho khách chưa đăng nhập *@
+                            <li><a class="dropdown-item" href="~/Account/Login">Đăng nhập</a></li>
+                            <li><a class="dropdown-item" href="~/Account/SignUp">Đăng ký tài khoản</a></li>
+                        }
+                        else
+                        {
+                            @* Các Action dành cho người dùng đã đăng nhập *@
+                            <li><a class="dropdown-item" href="~/Account/Profile">Hồ sơ cá nhân</a></li>
+                            <li><a class="dropdown-item" href="~/Order/History">Đơn hàng của tôi</a></li>
+                            <li><a class="dropdown-item" href="~/Account/ChangePassword">Đổi mật khẩu</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="~/Account/Logout">Đăng xuất</a></li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

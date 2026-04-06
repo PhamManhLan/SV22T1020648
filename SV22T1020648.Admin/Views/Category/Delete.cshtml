@@ -1,0 +1,59 @@
+﻿@model SV22T1020648.Models.Catalog.Category
+@{
+    ViewBag.Title = "Xóa loại hàng";
+    bool canDelete = ViewBag.CanDelete ?? true;
+}
+
+@section PageToolBar {
+    <div class="d-flex">
+        @if (canDelete)
+        {
+            <button type="submit" form="formDelete" class="btn btn-danger">
+                <i class="bi bi-trash me-1"></i> Xóa
+            </button>
+        }
+        <a href="~/Category" class="btn btn-secondary ms-1">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+}
+
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card @(canDelete ? "card-danger" : "card-warning") card-outline">
+            <div class="card-header">
+                <h5 class="card-title mb-0 @(canDelete ? "text-danger" : "text-warning")">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    @(canDelete ? "Xác nhận xóa loại hàng" : "Thông báo không thể xóa")
+                </h5>
+            </div>
+
+            <div class="card-body">
+                @if (canDelete)
+                {
+                    <div class="alert alert-warning d-flex align-items-center">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Bạn có chắc chắn muốn xóa loại hàng này không? Hành động này không thể hoàn tác.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger d-flex align-items-center">
+                        <i class="bi bi-slash-circle me-2"></i>
+                        Không thể xóa loại hàng này vì đang có dữ liệu liên quan.
+                    </div>
+                }
+
+                <form id="formDelete" method="post" action="~/Category/Delete/@Model.CategoryID">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Tên loại hàng</dt>
+                        <dd class="col-sm-8">@Model.CategoryName</dd>
+
+                        <dt class="col-sm-4">Mô tả</dt>
+                        <dd class="col-sm-8">@Model.Description</dd>
+                    </dl>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

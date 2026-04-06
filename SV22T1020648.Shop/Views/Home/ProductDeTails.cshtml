@@ -1,0 +1,99 @@
+﻿@model Product
+@{
+    ViewBag.Title = Model.ProductName;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <img src="@(string.IsNullOrEmpty(Model.Photo) ? "/images/products/nophoto.png" : "/images/products/" + Model.Photo)"
+                     class="img-fluid p-3 rounded" alt="@Model.ProductName">
+            </div>
+
+            @if (ViewBag.Photos?.Count > 0)
+            {
+                <div class="d-flex mt-3 gap-2 overflow-auto pb-2">
+                    @foreach (var p in ViewBag.Photos)
+                    {
+                        <img src="/images/products/@p.Photo" class="img-thumbnail rounded shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="col-md-7">
+            <h2 class="fw-bold text-primary">@Model.ProductName</h2>
+            <hr />
+
+            <div class="mb-3">
+                <span class="fs-3 fw-bold text-danger">@Model.Price.ToString("N0") đ</span>
+            </div>
+
+            <p><strong>Đơn vị tính:</strong> @Model.Unit</p>
+            <p><strong>Mô tả:</strong> @Model.ProductDescription</p>
+
+            @if (ViewBag.Attributes?.Count > 0)
+            {
+                <div class="mt-4">
+                    <h6 class="fw-bold"><i class="bi bi-card-list me-1"></i>Thông số kỹ thuật:</h6>
+                    <table class="table table-sm table-bordered shadow-sm">
+                        @foreach (var attr in ViewBag.Attributes)
+                        {
+                            <tr>
+                                <th class="bg-light" width="30%">@attr.AttributeName</th>
+                                <td>@attr.AttributeValue</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+
+            @if (Model.IsSelling)
+            {
+                <div class="mt-4 p-3 bg-light rounded d-inline-flex align-items-center gap-3 border">
+                    <div>
+                        <label class="form-label small fw-bold mb-1">Số lượng:</label>
+                        <input type="number" id="quantity" value="1" min="1" class="form-control text-center fw-bold" style="width: 80px;" />
+                    </div>
+                    <button class="btn btn-primary btn-lg mt-3" onclick="addToCart(@Model.ProductID)">
+                        <i class="bi bi-cart-plus me-2"></i>THÊM VÀO GIỎ
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="mt-4 alert alert-danger d-inline-block">
+                    <i class="bi bi-x-circle me-1"></i> Sản phẩm hiện đang ngừng kinh doanh.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function addToCart(productId) {
+            const qty = parseInt($("#quantity").val());
+
+            if (qty <= 0 || isNaN(qty)) {
+                alert("Vui lòng nhập số lượng lớn hơn 0");
+                return;
+            }
+
+            $.post("/Order/AddToCart", { productId, quantity: qty })
+                .done(res => {
+                    if (res.success) {
+                        alert("Đã thêm sản phẩm vào giỏ hàng!");
+                        const $badge = $("#cart-count");
+                        if ($badge.length) {
+                            $badge.text(res.cartCount).removeClass("d-none");
+                        }
+                    } else {
+                        alert(res.message);
+                    }
+                })
+                .fail(() => alert("Không thể kết nối đến máy chủ. Vui lòng đăng nhập hoặc thử lại."));
+        }
+    </script>
+}

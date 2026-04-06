@@ -1,0 +1,99 @@
+﻿@using SV22T1020648.Models.Sales
+@model (OrderViewInfo Order, List<OrderDetailViewInfo> Details)
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng #" + Model.Order.OrderID;
+    var orderTotal = Model.Details.Sum(x => x.TotalPrice);
+}
+
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="bi bi-info-circle"></i> CHI TIẾT ĐƠN HÀNG #@Model.Order.OrderID</h3>
+        <a href="~/Order/History" class="btn btn-outline-secondary btn-sm">Quay lại lịch sử</a>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <div class="row text-center">
+                <div class="col">
+                    <i class="bi bi-file-earmark-plus fs-3 @(Model.Order.Status >= OrderStatusEnum.New ? "text-primary" : "text-muted")"></i>
+                    <p class="small mb-0">Vừa tạo</p>
+                </div>
+                <div class="col">
+                    <i class="bi bi-check-circle fs-3 @(Model.Order.Status >= OrderStatusEnum.Accepted ? "text-primary" : "text-muted")"></i>
+                    <p class="small mb-0">Đã duyệt</p>
+                </div>
+                <div class="col">
+                    <i class="bi bi-truck fs-3 @(Model.Order.Status >= OrderStatusEnum.Shipping ? "text-primary" : "text-muted")"></i>
+                    <p class="small mb-0">Đang giao</p>
+                </div>
+                <div class="col">
+                    <i class="bi bi-house-check fs-3 @(Model.Order.Status == OrderStatusEnum.Completed ? "text-success" : "text-muted")"></i>
+                    <p class="small mb-0">Hoàn tất</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-light fw-bold">Thông tin nhận hàng</div>
+                <div class="card-body">
+                    <p><strong>Người nhận:</strong> @Model.Order.CustomerName</p>
+                    <p><strong>Điện thoại:</strong> @Model.Order.CustomerPhone</p>
+                    <p><strong>Địa chỉ:</strong> @Model.Order.DeliveryAddress</p>
+                    <p><strong>Tỉnh/Thành:</strong> @Model.Order.DeliveryProvince</p>
+                    <hr />
+                    <p>
+                        <strong>Trạng thái:</strong>
+                        <span class="badge @(Model.Order.Status == OrderStatusEnum.Completed ? "bg-success" : "bg-info")">
+                            @Model.Order.Status.GetDescription()
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light fw-bold">Sản phẩm đã đặt</div>
+                <div class="card-body p-0">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-end">Đơn giá</th>
+                                <th class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var d in Model.Details)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="/images/products/@(string.IsNullOrEmpty(d.Photo) ? "nophoto.png" : d.Photo)"
+                                                 style="width: 40px; height: 40px; object-fit: cover;" class="rounded me-2 shadow-sm">
+                                            <span>@d.ProductName</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@d.Quantity</td>
+                                    <td class="text-end">@d.SalePrice.ToString("N0") đ</td>
+                                    <td class="text-end fw-bold">@d.TotalPrice.ToString("N0") đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Tổng tiền thanh toán:</td>
+                                <td class="text-end text-danger fw-bold fs-5">@orderTotal.ToString("N0") đ</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

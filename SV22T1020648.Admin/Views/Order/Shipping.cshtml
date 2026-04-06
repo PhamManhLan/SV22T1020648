@@ -1,0 +1,74 @@
+﻿@model OrderViewInfo
+
+@{
+    Layout = null;
+}
+
+<form asp-action="Shipping" method="post" onsubmit="return validateShippingForm();">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="orderID" value="@Model.OrderID" />
+
+    <div class="modal-header text-bg-info">
+        <strong class="modal-title">
+            Chọn người giao hàng
+        </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+
+        @* lỗi từ server (nếu có) *@
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12">
+                <label class="form-label">Người giao hàng</label>
+                @* Sử dụng asp-items để đổ dữ liệu từ Helper *@
+                <select class="form-select" name="shipperID" id="shipperID" asp-items="await SelectListHelper.Shippers()">
+                </select>
+
+                <div id="shipperError" class="text-danger mt-2" style="display:none;">
+                    Vui lòng chọn người giao hàng.
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <strong>Mã đơn hàng:</strong> @Model.OrderID
+        </div>
+        <div class="mt-2">
+            <strong>Khách hàng:</strong> @Model.CustomerName
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-bicycle"></i> Giao hàng
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Đóng
+        </button>
+    </div>
+</form>
+
+<script>
+    function validateShippingForm() {
+        var shipper = document.getElementById("shipperID");
+        var error = document.getElementById("shipperError");
+
+        if (shipper.value === "0") {
+            error.style.display = "block";
+            shipper.classList.add("is-invalid");
+            return false; // chặn submit
+        }
+
+        error.style.display = "none";
+        shipper.classList.remove("is-invalid");
+        return true; // cho submit
+    }
+</script>

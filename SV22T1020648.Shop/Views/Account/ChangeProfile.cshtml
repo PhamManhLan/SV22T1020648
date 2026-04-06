@@ -1,0 +1,69 @@
+﻿@model Customer
+@{
+    ViewBag.Title = "Chỉnh sửa hồ sơ";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>CẬP NHẬT THÔNG TIN</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form action="~/Account/ChangeProfile" method="post">
+                        @Html.AntiForgeryToken()
+
+                        @* Hidden ID để biết đang cập nhật cho khách hàng nào *@
+                        <input type="hidden" name="CustomerID" value="@Model.CustomerID" />
+                        <input type="hidden" name="Email" value="@Model.Email" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Tên khách hàng</label>
+                                <input type="text" name="CustomerName" class="form-control" value="@Model.CustomerName" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Tên giao dịch</label>
+                                <input type="text" name="ContactName" class="form-control" value="@Model.ContactName" required />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Số điện thoại</label>
+                                <input type="text" name="Phone" class="form-control" value="@Model.Phone" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Tỉnh/Thành phố</label>
+                                <select class="form-select" name="Province">
+                                    <option value="">-- Chọn Tỉnh/Thành --</option>
+                                    @foreach (var p in ViewBag.Provinces)
+                                    {
+                                        <option value="@p.ProvinceName" selected="@(p.ProvinceName == Model.Province)">
+                                            @p.ProvinceName
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Địa chỉ chi tiết</label>
+                            <input type="text" name="Address" class="form-control" value="@Model.Address" />
+                        </div>
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-save"></i> Lưu thay đổi
+                            </button>
+                            <a href="~/Account/Profile" class="btn btn-outline-secondary px-4">Hủy bỏ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

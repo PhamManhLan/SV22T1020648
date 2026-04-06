@@ -1,0 +1,31 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+footer a {
+    transition: all 0.3s ease; /* Tạo hiệu ứng mượt cho cả màu và độ sáng */
+}
+
+    footer a:hover {
+        color: #0d6efd !important;
+        opacity: 1 !important; /* Làm chữ sáng rõ lên khi hover */
+        text-decoration: underline !important; /* Thêm gạch chân nếu muốn */
+    }

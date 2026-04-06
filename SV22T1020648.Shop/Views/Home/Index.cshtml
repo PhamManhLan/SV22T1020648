@@ -1,0 +1,161 @@
+﻿@model ProductSearchInput
+
+@* Hiển thị thông báo thành công từ TempData *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show text-center mt-3" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+}
+
+<div class="row mt-4">
+    @* --- CỘT TRÁI: BỘ LỌC SẢN PHẨM --- *@
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white fw-bold">
+                <i class="bi bi-funnel me-1"></i> BỘ LỌC SẢN PHẨM
+            </div>
+            <div class="card-body">
+                <form id="formSearch" action="~/Home/Search" method="post" onsubmit="event.preventDefault(); doSearch(1);">
+                    <input type="hidden" name="PageSize" id="PageSize" value="@Model.PageSize" />
+                    <input type="hidden" name="SupplierID" id="SupplierID" value="@Model.SupplierID" />
+
+                    @* Lọc theo từ khóa *@
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Từ khóa</label>
+                        <div class="input-group">
+                            <input type="text" name="SearchValue" id="SearchValue" class="form-control"
+                                   placeholder="Tên sản phẩm..." value="@Model.SearchValue">
+                            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+
+                    @* Lọc theo danh mục *@
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Danh mục</label>
+                        <select class="form-select" name="CategoryID" id="CategoryID" onchange="doSearch(1)">
+                            <option value="0">-- Tất cả sản phẩm --</option>
+                            @if (ViewBag.Categories != null)
+                            {
+                                foreach (var item in ViewBag.Categories.DataItems)
+                                {
+                                    <option value="@item.CategoryID" selected="@(item.CategoryID == Model.CategoryID)">
+                                        @item.CategoryName
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    @* Lọc theo khoảng giá *@
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Khoảng giá (VNĐ)</label>
+                        <input type="number" class="form-control mb-2" name="MinPrice" id="MinPrice"
+                               placeholder="Giá từ..." value="@(Model.MinPrice > 0 ? Model.MinPrice : "")" />
+                        <input type="number" class="form-control mb-2" name="MaxPrice" id="MaxPrice"
+                               placeholder="Đến..." value="@(Model.MaxPrice > 0 ? Model.MaxPrice : "")" />
+
+                        @* Vùng hiển thị lỗi khoảng giá *@
+                        <div id="price-error" class="text-danger small mb-2 d-none" style="font-size: 0.85rem;">
+                            <i class="bi bi-exclamation-triangle-fill"></i> <span></span>
+                        </div>
+
+                        <button class="btn btn-primary w-100 fw-bold" type="submit">
+                            <i class="bi bi-filter"></i> ÁP DỤNG LỌC
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @* --- CỘT PHẢI: KẾT QUẢ TÌM KIẾM --- *@
+    <div class="col-md-9">
+        <div id="searchResult">
+            <div class="text-center mt-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">Đang tải sản phẩm...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Tự động tìm kiếm ngay khi mở trang
+        $(document).ready(() => doSearch(@Model.Page));
+
+        function doSearch(page) {
+            const minPrice = parseFloat($("#MinPrice").val()) || 0;
+            const maxPrice = parseFloat($("#MaxPrice").val()) || 0;
+            const $errorBox = $("#price-error");
+
+            // Reset lỗi
+            $errorBox.addClass("d-none").find("span").text("");
+
+            // Validate giá
+            if (minPrice < 0 || maxPrice < 0) {
+                $errorBox.removeClass("d-none").find("span").text("Giá không được âm.");
+                return;
+            }
+            if (maxPrice > 0 && minPrice > maxPrice) {
+                $errorBox.removeClass("d-none").find("span").text("Giá 'Từ' phải nhỏ hơn giá 'Đến'.");
+                return;
+            }
+
+            // Hiện loading
+            $("#searchResult").html('<div class="text-center mt-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Đang tải sản phẩm...</p></div>');
+
+            // Gom dữ liệu
+            const searchCondition = {
+                Page: page,
+                PageSize: $("#PageSize").val() || 12,
+                SearchValue: $("#SearchValue").val() || "",
+                CategoryID: $("#CategoryID").val() || 0,
+                SupplierID: $("#SupplierID").val() || 0,
+                MinPrice: minPrice,
+                MaxPrice: maxPrice
+            };
+
+            // Gọi AJAX
+            $.post("/Home/Search", searchCondition)
+                .done(data => $("#searchResult").html(data))
+                .fail(() => $("#searchResult").html('<div class="alert alert-danger text-center"><i class="bi bi-bug"></i> Có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.</div>'));
+        }
+
+        function updateCartBadge(count) {
+            const $badge = $("#cart-count"); // Nhớ đảm bảo trong _Header.cshtml của bạn có thẻ <span id="cart-count"> nhé
+            if ($badge.length) {
+                $badge.text(count);
+                count > 0 ? $badge.removeClass("d-none") : $badge.addClass("d-none");
+            }
+        }
+
+        function addToCartWithQty(productId) {
+            // Tìm ô input, ưu tiên ô có id theo sản phẩm, nếu không có thì tìm ô quantity chung
+            const $input = $(`#qty-${productId}`).length ? $(`#qty-${productId}`) : $("#quantity");
+            const qty = parseInt($input.val());
+
+            if (qty <= 0 || isNaN(qty)) {
+                alert("Số lượng sản phẩm không hợp lệ.");
+                return;
+            }
+
+            $.post("/Order/AddToCart", { productId, quantity: qty })
+                .done(res => {
+                    if (res.success) {
+                        updateCartBadge(res.cartCount);
+                        alert(`Đã thêm ${qty} sản phẩm vào giỏ hàng!`);
+                    } else {
+                        alert(res.message);
+                    }
+                })
+                .fail(() => alert("Lỗi kết nối hệ thống. Vui lòng đăng nhập hoặc thử lại!"));
+        }
+    </script>
+}

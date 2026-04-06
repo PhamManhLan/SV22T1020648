@@ -1,0 +1,88 @@
+﻿@model ProductSearchInput
+
+@{
+    ViewBag.Title = "Quản lý mặt hàng";
+}
+
+@section PageToolBar {
+    <a href="~/Product/Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        Bổ sung
+    </a>
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="formSearch"
+              method="get"
+              action="~/Product/Search"
+              data-target="searchResult"
+              onsubmit="paginationSearch(event, this, 1)">
+
+            <input type="hidden" asp-for="PageSize" />
+
+            <div class="row g-2">
+
+                <!-- Tên -->
+                <div class="col-md-3">
+                    <input type="text" asp-for="SearchValue"
+                           class="form-control"
+                           placeholder="Tên mặt hàng..." autofocus />
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-2">
+                    <select asp-for="CategoryID" class="form-select">
+                        <option value="0">-- Loại hàng --</option>
+                        @foreach (var item in ViewBag.Categories.DataItems)
+                        {
+                            <option value="@item.CategoryID">@item.CategoryName</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Supplier -->
+                <div class="col-md-2">
+                    <select asp-for="SupplierID" class="form-select">
+                        <option value="0">-- Nhà cung cấp --</option>
+                        @foreach (var item in ViewBag.Suppliers.DataItems)
+                        {
+                            <option value="@item.SupplierID">@item.SupplierName</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Giá -->
+                <div class="col-md-2">
+                    <input type="number" asp-for="MinPrice"
+                           class="form-control"
+                           placeholder="Giá từ" />
+                </div>
+
+                <div class="col-md-2">
+                    <input type="number" asp-for="MaxPrice"
+                           class="form-control"
+                           placeholder="Đến" />
+                </div>
+
+                <!-- Button -->
+                <div class="col-md-1">
+                    <button class="btn btn-info w-100">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="searchResult"></div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            paginationSearch(null, document.getElementById("formSearch"), @Model.Page);
+        });
+    </script>
+}

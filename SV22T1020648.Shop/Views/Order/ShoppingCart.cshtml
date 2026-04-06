@@ -1,0 +1,109 @@
+﻿@model IEnumerable<OrderDetailViewInfo>
+@{
+    ViewBag.Title = "Giỏ hàng của bạn";
+    // Tính tổng tiền 1 lần duy nhất để tái sử dụng, tăng hiệu năng
+    var cartTotal = Model?.Sum(x => x.TotalPrice) ?? 0;
+}
+
+<div class="container mt-4">
+    <h3 class="mb-4 text-primary"><i class="bi bi-cart3"></i> GIỎ HÀNG CỦA BẠN</h3>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center p-5 shadow-sm border-0">
+            <p class="fs-5">Giỏ hàng của bạn đang trống.</p>
+            <a href="~/Home" class="btn btn-primary mt-3">Tiếp tục mua hàng</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-9">
+                <div class="table-responsive shadow-sm rounded">
+                    <table class="table table-hover align-middle bg-white mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-end">Giá bán</th>
+                                <th class="text-end">Thành tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="/images/products/@(string.IsNullOrEmpty(item.Photo) ? "nophoto.png" : item.Photo)"
+                                                 class="rounded me-3 shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                                            <div>
+                                                <div class="fw-bold">@item.ProductName</div>
+                                                <small class="text-muted">ĐVT: @item.Unit</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center" style="width: 150px;">
+                                        <input type="number" id="qty-cart-@item.ProductID" value="@item.Quantity" min="1"
+                                               class="form-control text-center fw-bold"
+                                               onchange="updateCartItem(@item.ProductID)" />
+                                    </td>
+                                    <td class="text-end">@item.SalePrice.ToString("N0") đ</td>
+                                    <td class="text-end fw-bold text-danger">@item.TotalPrice.ToString("N0") đ</td>
+                                    <td class="text-center">
+                                        <a href="~/Order/RemoveFromCart/@item.ProductID" class="btn btn-outline-danger btn-sm"
+                                           onclick="return confirm('Xóa sản phẩm này khỏi giỏ?')">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3 d-flex justify-content-between">
+                    <a href="~/Home" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Tiếp tục mua hàng</a>
+                    <a href="~/Order/ClearCart" class="btn btn-outline-danger" onclick="return confirm('Xóa toàn bộ sản phẩm trong giỏ hàng?')">
+                        <i class="bi bi-trash"></i> Xóa sạch giỏ hàng
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">TỔNG CỘNG</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tạm tính:</span>
+                            <span class="fw-bold">@cartTotal.ToString("N0") đ</span>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fs-5">Thành tiền:</span>
+                            <span class="fs-5 fw-bold text-danger">@cartTotal.ToString("N0") đ</span>
+                        </div>
+                        <a href="~/Order/Checkout" class="btn btn-danger btn-lg w-100 fw-bold">THANH TOÁN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        const updateCartItem = (productId) => {
+            const qty = parseInt($(`#qty-cart-${productId}`).val());
+
+            if (qty <= 0 || isNaN(qty)) {
+                alert("Số lượng phải lớn hơn 0");
+                return;
+            }
+
+            $.post("/Order/UpdateCart", { productId, quantity: qty })
+                .done(res => res.success ? window.location.reload() : alert(res.message))
+                .fail(() => alert("Lỗi kết nối hệ thống. Vui lòng thử lại."));
+        };
+    </script>
+}

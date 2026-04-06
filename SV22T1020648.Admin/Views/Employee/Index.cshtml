@@ -1,0 +1,76 @@
+﻿@model PaginationSearchInput
+@{
+    ViewBag.Title = "Quản lý Nhân viên";
+}
+
+@section PageToolBar {
+    <a href="~/Employee/Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        Bổ sung
+    </a>
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="formSearch"
+              method="get"
+              action="~/Employee/Search"
+              onsubmit="paginationSearch(event, this, 1); return false;">
+            <div class="input-group">
+                <input type="hidden" asp-for="Page" value="1" />
+                <input type="hidden" asp-for="PageSize" value="@Model.PageSize" />
+                <input type="text"
+                       class="form-control"
+                       asp-for="SearchValue"
+                       placeholder="Tên nhân viên..." autofocus />
+                <button type="submit" class="btn btn-info d-flex align-items-center">
+                    <i class="bi bi-search me-1"></i> Tìm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="searchResult" class="mt-3">
+    <!-- Danh sách sẽ load bằng AJAX -->
+</div>
+
+@section Scripts {
+    <script>
+        // Load danh sách ngay khi trang mở
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("formSearch");
+            paginationSearch(null, form, 1);
+        });
+
+        function paginationSearch(event, form, page) {
+            if (event) event.preventDefault();
+
+            // Cập nhật số trang
+            form.querySelector('input[name="Page"]').value = page;
+
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams(formData).toString();
+            const url = form.action + "?" + searchParams;
+
+            fetch(url, {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Lỗi tải dữ liệu");
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById("searchResult").innerHTML = html;
+            })
+            .catch(error => {
+                console.error("Lỗi AJAX:", error);
+                document.getElementById("searchResult").innerHTML =
+                    '<div class="alert alert-danger">Không tải được danh sách. Vui lòng thử lại.</div>';
+            });
+        }
+    </script>
+}   

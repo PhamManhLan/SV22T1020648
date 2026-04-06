@@ -1,0 +1,125 @@
+﻿@model List<SV22T1020648.Models.Catalog.ProductPhoto>
+@using SV22T1020648.Models.Catalog
+
+@{
+    var product = ViewBag.Product as Product;
+    ViewBag.Title = "Danh sách ảnh mặt hàng";
+}
+
+<div class="mb-3">
+    <a asp-action="CreatePhoto"
+       asp-route-id="@product?.ProductID"
+       class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
+        Bổ sung ảnh
+    </a>
+
+    <a asp-action="Detail"
+       asp-route-id="@product?.ProductID"
+       class="btn btn-secondary ms-1">
+        <i class="bi bi-arrow-left"></i>
+        Quay lại
+    </a>
+</div>
+
+<div class="card card-secondary card-outline">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            Danh sách ảnh của mặt hàng: <strong>@product?.ProductName</strong>
+        </h5>
+    </div>
+
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-secondary text-center">
+                <tr>
+                    <th>STT</th>
+                    <th>Ảnh</th>
+                    <th>Mô tả</th>
+                    <th>Thứ tự</th>
+                    <th>Ẩn</th>
+                    <th style="width:120px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count > 0)
+                {
+                    int i = 1;
+                    foreach (var item in Model.OrderBy(x => x.DisplayOrder))
+                    {
+                        <tr>
+                            <td class="text-center">@i</td>
+                            <td class="text-center">
+                                @if (!string.IsNullOrWhiteSpace(item.Photo))
+                                {
+                                    <img src="~/images/products/@item.Photo"
+                                         class="img-thumbnail"
+                                         style="max-height:80px;" />
+                                }
+                            </td>
+                            <td>@item.Description</td>
+                            <td class="text-center">@item.DisplayOrder</td>
+                            <td class="text-center">
+                                @if (item.IsHidden)
+                                {
+                                    <span class="badge bg-secondary">Có</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Không</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="EditPhoto"
+                                   asp-route-id="@item.ProductID"
+                                   asp-route-photoId="@item.PhotoID"
+                                   class="btn btn-sm btn-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <a asp-action="DeletePhoto"
+                                   asp-route-id="@item.ProductID"
+                                   asp-route-photoId="@item.PhotoID"
+                                   class="btn btn-sm btn-danger open-modal">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            Chưa có ảnh nào cho mặt hàng này
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function deletePhoto(productID, photoID) {
+            fetch(`/Product/DeletePhoto?id=${productID}&photoId=${photoID}`, {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code == 0) {
+                    alert(data.message);
+                    return;
+                }
+
+                location.reload();
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Có lỗi xảy ra khi xóa ảnh!");
+            });
+        }
+    </script>
+}

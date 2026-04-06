@@ -1,0 +1,64 @@
+﻿@model SV22T1020648.Models.Catalog.ProductPhoto
+
+@{
+    ViewBag.Title = Model.PhotoID == 0 ? "Bổ sung ảnh" : "Cập nhật ảnh";
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <form asp-action="SavePhoto" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="PhotoID" />
+            <input type="hidden" asp-for="ProductID" />
+            <input type="hidden" asp-for="Photo" />
+
+            <div class="form-group mb-3">
+                <label class="control-label fw-bold">Chọn ảnh:</label>
+                <input type="file" name="uploadPhoto" class="form-control" accept="image/*" />
+                <span class="text-danger">@Html.ValidationMessage("uploadPhoto")</span>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Photo))
+            {
+                <div class="form-group mb-3">
+                    <label class="control-label fw-bold">Ảnh hiện tại:</label><br />
+                    <img src="~/images/products/@Model.Photo" class="img-thumbnail" style="max-height:200px;" />
+                </div>
+            }
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label fw-bold">Mô tả ảnh:</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="DisplayOrder" class="control-label fw-bold">Thứ tự hiển thị:</label>
+                <input asp-for="DisplayOrder" class="form-control" type="number" min="0" />
+                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <div class="form-check">
+                    <input asp-for="IsHidden" class="form-check-input" />
+                    <label asp-for="IsHidden" class="form-check-label">Ẩn ảnh này</label>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-floppy"></i> Lưu dữ liệu
+                </button>
+
+                <a asp-action="Detail"
+                   asp-route-id="@Model.ProductID"
+                   class="btn btn-secondary ms-2">
+                    <i class="bi bi-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

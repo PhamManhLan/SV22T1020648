@@ -1,0 +1,53 @@
+﻿@model Customer
+@{
+    ViewBag.Title = "Hồ sơ của tôi";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>THÔNG TIN TÀI KHOẢN</h5>
+                    <a href="~/Account/ChangeProfile" class="btn btn-sm btn-outline-light">
+                        <i class="bi bi-pencil"></i> Sửa thông tin
+                    </a>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 text-center border-end">
+                            <div class="display-1 text-secondary">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <h5 class="mt-2 text-dark">@Model.CustomerName</h5>
+                            <span class="badge bg-info text-dark">Khách hàng</span>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="ps-md-4">
+                                <p class="mb-2"><strong>Tên giao dịch:</strong> @Model.ContactName</p>
+                                <p class="mb-2"><strong>Email:</strong> @Model.Email</p>
+                                <p class="mb-2"><strong>Điện thoại:</strong> @(Model.Phone ?? "Chưa có")</p>
+                                <p class="mb-2"><strong>Tỉnh/Thành:</strong> @Model.Province</p>
+                                <p class="mb-0"><strong>Địa chỉ:</strong> @(Model.Address ?? "Chưa có")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light p-3">
+                    <div class="row text-center">
+                        <div class="col border-end">
+                            <a href="~/Order/History" class="text-decoration-none text-primary fw-bold">
+                                <i class="bi bi-bag-check"></i> Đơn hàng
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="~/Account/ChangePassword" class="text-decoration-none text-danger fw-bold">
+                                <i class="bi bi-key"></i> Đổi mật khẩu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\bin\Debug\net8.0\SV22T1020648.DataLayers.deps.json
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\bin\Debug\net8.0\SV22T1020648.DataLayers.dll
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\bin\Debug\net8.0\SV22T1020648.DataLayers.pdb
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\bin\Debug\net8.0\SV22T1020648.Models.dll
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\bin\Debug\net8.0\SV22T1020648.Models.pdb
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.csproj.AssemblyReference.cache
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.GeneratedMSBuildEditorConfig.editorconfig
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.AssemblyInfoInputs.cache
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.AssemblyInfo.cs
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.csproj.CoreCompileInputs.cache
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T102.13DC12FC.Up2Date
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.dll
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\refint\SV22T1020648.DataLayers.dll
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\SV22T1020648.DataLayers.pdb
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.DataLayers\obj\Debug\net8.0\ref\SV22T1020648.DataLayers.dll

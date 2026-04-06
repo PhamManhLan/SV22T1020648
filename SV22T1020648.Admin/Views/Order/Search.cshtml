@@ -1,0 +1,32 @@
+﻿@model PagedResult<OrderViewInfo>
+@{
+    Layout = null;
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Khách hàng</th>
+            <th>Thời gian</th>
+            <th>Trạng thái</th>
+            <th style="width:100px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DataItems)
+        {
+            <tr>
+                <td>@item.CustomerName</td>
+                <td>@item.OrderTime.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @item.Status.GetDescription()
+                </td>
+                <td class="text-center">
+                    <a href="~/Order/Detail/@item.OrderID" class="btn btn-sm btn-info">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

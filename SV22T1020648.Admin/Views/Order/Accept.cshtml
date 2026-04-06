@@ -1,0 +1,103 @@
+﻿@model OrderViewInfo
+
+@{
+    Layout = null;
+}
+
+<form asp-action="Accept" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="OrderID" />
+
+    <div class="modal-header text-bg-info">
+        <strong class="modal-title">
+            Duyệt chấp nhận đơn hàng
+        </strong>
+        <button type="button"
+                class="btn-close"
+                onclick="location.href='~/Order/Detail/@Model.OrderID'"></button>
+    </div>
+
+    <div class="modal-body">
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="alert alert-info d-flex align-items-center">
+            <i class="bi bi-info-circle me-2"></i>
+            Xác nhận duyệt và chấp nhận đơn hàng này
+        </div>
+
+        <div class="mb-2">
+            <strong>Mã đơn hàng:</strong> @Model.OrderID
+        </div>
+        <div class="mb-2">
+            <strong>Khách hàng:</strong> @Model.CustomerName
+        </div>
+        <div class="mb-2">
+            <strong>Ngày đặt:</strong> @Model.OrderTime.ToString("dd/MM/yyyy HH:mm")
+        </div>
+        <div class="mb-2">
+            <strong>Địa chỉ giao:</strong> @Model.DeliveryAddress, @Model.DeliveryProvince
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check"></i> Chấp nhận
+        </button>
+        <a href="~/Order/Details/@Model.OrderID" class="btn btn-secondary">
+            Đóng
+        </a>
+    </div>
+</form>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f9f9f9;
+    }
+
+    .modal-header {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .modal-title {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .modal-body {
+        padding: 1rem;
+        font-size: 0.95rem;
+        color: #333;
+    }
+
+    .alert {
+        margin: 0;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-footer {
+        padding: 0.5rem 1rem;
+        text-align: right;
+        border-top: 1px solid #ccc;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.35rem 0.75rem;
+        margin-left: 0.25rem;
+    }
+
+    i.bi {
+        margin-right: 0.3rem;
+    }
+</style>

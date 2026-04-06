@@ -1,0 +1,27 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Đã xảy ra lỗi";
+}
+
+<div class="container mt-5 text-center">
+    <div class="mb-4">
+        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 5rem;"></i>
+    </div>
+    <h1 class="text-danger fw-bold">Ôi hỏng! Đã có lỗi xảy ra.</h1>
+    <h4 class="text-muted mt-3">Hệ thống đang gặp sự cố trong quá trình xử lý yêu cầu của bạn.</h4>
+
+    @if (Model.ShowRequestId)
+    {
+        <div class="alert alert-secondary mt-4 d-inline-block text-start">
+            <strong>Mã lỗi (Request ID):</strong> <code>@Model.RequestId</code>
+            <br />
+            <small>Vui lòng cung cấp mã này cho quản trị viên để được hỗ trợ.</small>
+        </div>
+    }
+
+    <div class="mt-4">
+        <a href="~/" class="btn btn-primary px-4">
+            <i class="bi bi-house-door"></i> Quay về Trang chủ
+        </a>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@model OrderViewInfo
+
+@{
+    Layout = null;
+}
+
+<form asp-action="Reject" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="OrderID" />
+
+    <div class="modal-header text-bg-danger">
+        <strong class="modal-title">
+            Xác nhận từ chối đơn hàng
+        </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="alert alert-danger d-flex align-items-center">
+            <i class="bi bi-info-circle me-2"></i>
+           Xác nhận từ chối đơn hàng
+        </div>
+
+        <div class="mb-2">
+            <strong>Mã đơn hàng:</strong> @Model.OrderID
+        </div>
+        <div class="mb-2">
+            <strong>Khách hàng:</strong> @Model.CustomerName
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check"></i> Chấp nhận
+        </button>
+        <button type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+            Đóng
+        </button>
+    </div>
+</form>

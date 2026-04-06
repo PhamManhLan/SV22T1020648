@@ -1,0 +1,71 @@
+﻿@model SignUp
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h4 class="mb-0">ĐĂNG KÝ TÀI KHOẢN</h4>
+                </div>
+                <div class="card-body">
+                    <form action="~/Account/SignUp" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email đăng nhập</label>
+                            <input type="email" name="UserName" class="form-control" value="@Model.UserName" required />
+                            @Html.ValidationMessage("UserName", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Mật khẩu</label>
+                                <input type="password" name="Password" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Xác nhận mật khẩu</label>
+                                <input type="password" name="ConfirmPassword" class="form-control" required />
+                                @Html.ValidationMessage("ConfirmPassword", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Số điện thoại</label>
+                            <input type="text" name="Phone" class="form-control" value="@Model.Phone" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Tỉnh/Thành phố</label>
+                            <select class="form-select" name="Province" required>
+                                <option value="">-- Chọn Tỉnh/Thành --</option>
+                                @foreach (var p in ViewBag.Provinces)
+                                {
+                                    <option value="@p.ProvinceName" selected="@(p.ProvinceName == Model.Province)">
+                                        @p.ProvinceName
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ContainsKey(""))
+                        {
+                            <div class="alert alert-danger">
+                                @Html.ValidationSummary(true)
+                            </div>
+                        }
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Đăng ký ngay</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p class="mb-0">Đã có tài khoản? <a href="~/Account/Login">Đăng nhập</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

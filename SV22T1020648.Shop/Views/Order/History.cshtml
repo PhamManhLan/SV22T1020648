@@ -1,0 +1,126 @@
+﻿@using SV22T1020648.Models.Sales
+@model List<(OrderViewInfo Order, List<OrderDetailViewInfo> Details)>
+
+@{
+    ViewBag.Title = "Lịch sử mua hàng";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container mt-4 mb-5">
+    <h3 class="mb-4 text-primary"><i class="bi bi-clock-history"></i> LỊCH SỬ MUA HÀNG</h3>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center p-5 shadow-sm border-0">
+            <i class="bi bi-bag-x fs-1 text-secondary mb-3 d-block"></i>
+            <h5>Bạn chưa có đơn hàng nào đã hoàn tất.</h5>
+            <a href="~/Home" class="btn btn-primary mt-3">Mua sắm ngay</a>
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            var orderTotal = item.Details.Sum(x => x.TotalPrice);
+            var statusMapping = item.Order.Status switch
+            {
+                OrderStatusEnum.New => new { Class = "bg-info", Text = "Vừa đặt", Icon = "bi-cart-plus" },
+                OrderStatusEnum.Accepted => new { Class = "bg-primary", Text = "Đã duyệt", Icon = "bi-check-circle" },
+                OrderStatusEnum.Shipping => new { Class = "bg-warning text-dark", Text = "Đang giao", Icon = "bi-truck" },
+                OrderStatusEnum.Completed => new { Class = "bg-success", Text = "Thành công", Icon = "bi-check2-all" },
+                OrderStatusEnum.Cancelled => new { Class = "bg-secondary", Text = "Đã hủy", Icon = "bi-x-circle" },
+                OrderStatusEnum.Rejected => new { Class = "bg-danger", Text = "Từ chối", Icon = "bi-slash-circle" },
+                _ => new { Class = "bg-dark", Text = "Không rõ", Icon = "bi-question" }
+            };
+
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
+                    <div>
+                        <h6 class="mb-1 text-primary">Mã đơn hàng: #@item.Order.OrderID</h6>
+                        <small class="text-muted">Ngày đặt: @item.Order.OrderTime.ToString("dd/MM/yyyy HH:mm")</small>
+                    </div>
+                    <div class="text-end">
+                        @if (item.Order.Status == OrderStatusEnum.New || item.Order.Status == OrderStatusEnum.Accepted)
+                        {
+                            <a href="~/Order/Cancel/@item.Order.OrderID" class="btn btn-outline-danger btn-sm me-2"
+                               onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng #@item.Order.OrderID không?')">
+                                <i class="bi bi-x-circle"></i> Hủy đơn
+                            </a>
+                        }
+                        <a href="~/Order/Details/@item.Order.OrderID" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-eye"></i> Chi tiết
+                        </a>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge @statusMapping.Class fs-6 shadow-sm"><i class="bi @statusMapping.Icon"></i> @statusMapping.Text</span>
+                        @if (item.Order.FinishedTime.HasValue)
+                        {
+                            <div class="mt-1">
+                                <small class="text-muted">
+                                    @(item.Order.Status == OrderStatusEnum.Completed ? "Ngày nhận:" : "Kết thúc lúc:")
+                                    @item.Order.FinishedTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                </small>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <p class="mb-3">
+                        <strong><i class="bi bi-geo-alt"></i> Giao đến:</strong> @item.Order.DeliveryAddress, @item.Order.DeliveryProvince
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered align-middle mb-0">
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th class="text-start">Sản phẩm</th>
+                                    <th style="width: 100px;">ĐVT</th>
+                                    <th style="width: 100px;">Số lượng</th>
+                                    <th style="width: 150px;">Đơn giá</th>
+                                    <th style="width: 150px;">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detail in item.Details)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="/images/products/@(string.IsNullOrEmpty(detail.Photo) ? "nophoto.png" : detail.Photo)"
+                                                     style="width: 40px; height: 40px; object-fit: cover;" class="rounded me-2 shadow-sm">
+                                                <span>@detail.ProductName</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@detail.Unit</td>
+                                        <td class="text-center">@detail.Quantity</td>
+                                        <td class="text-end">@detail.SalePrice.ToString("N0") đ</td>
+                                        <td class="text-end fw-bold">@detail.TotalPrice.ToString("N0") đ</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-end py-3">
+                    <span class="fs-5 me-3">Tổng cộng:</span>
+                    <span class="fs-4 text-danger fw-bold">@orderTotal.ToString("N0") đ</span>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<OrderDetailViewInfo>
+@{
+    ViewBag.Title = "Thanh toán đơn hàng";
+    var cartTotal = Model?.Sum(x => x.TotalPrice) ?? 0;
+}
+
+<div class="container mt-4">
+    <h3 class="mb-4 text-primary"><i class="bi bi-credit-card"></i> THANH TOÁN ĐƠN HÀNG</h3>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-light"><h5 class="mb-0">Thông tin đơn hàng</h5></div>
+                <div class="card-body p-0">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">SL</th>
+                                <th class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold">@item.ProductName</div>
+                                        <small class="text-muted">ĐVT: @item.Unit</small>
+                                    </td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-end text-danger fw-bold">@item.TotalPrice.ToString("N0") đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <td colspan="2" class="text-end fs-5"><strong>Tổng cộng:</strong></td>
+                                <td class="text-end fs-5 text-danger fw-bold">@cartTotal.ToString("N0") đ</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white"><h5 class="mb-0">Thông tin giao hàng</h5></div>
+                <div class="card-body">
+                    <form asp-controller="Order" asp-action="ConfirmCheckout" method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Người nhận</label>
+                            <input type="text" class="form-control bg-light" value="@ViewBag.CustomerName" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Điện thoại liên hệ</label>
+                            <input type="text" class="form-control bg-light" value="@ViewBag.CustomerPhone" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tỉnh/Thành phố giao hàng <span class="text-danger">*</span></label>
+                            <select class="form-select" name="deliveryProvince" required>
+                                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                                @foreach (var p in ViewBag.Provinces)
+                                {
+                                    <option value="@p.ProvinceName" selected="@(p.ProvinceName == ViewBag.CustomerProvince)">@p.ProvinceName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Địa chỉ chi tiết <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="deliveryAddress" value="@ViewBag.CustomerAddress" required placeholder="Số nhà, đường..." />
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold">XÁC NHẬN ĐẶT HÀNG</button>
+                            <a href="~/Order/ShoppingCart" class="btn btn-outline-secondary">Quay lại giỏ hàng</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

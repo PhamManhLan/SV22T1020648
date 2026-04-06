@@ -1,0 +1,76 @@
+﻿@model OrderSearchInput
+
+@{
+    ViewBag.Title = "Quản lý đơn hàng";
+}
+
+@section PageToolBar {
+    <a href="~/Order/Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        Lập đơn hàng
+    </a>
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="formSearch"
+              method="get"
+              action="~/Order/Search"
+              data-target="searchResult"
+              onsubmit="paginationSearch(event, this, 1)">
+
+            <input type="hidden" asp-for="PageSize" />
+
+            <div class="row g-2">
+
+                <!-- Search -->
+                <div class="col-md-3">
+                    <input type="text" asp-for="SearchValue"
+                           class="form-control"
+                           placeholder="Tên KH / địa chỉ..." autofocus />
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-2">
+                    <select asp-for="Status" class="form-select">
+                        <option value="0">-- Trạng thái --</option>
+                        <option value="1">Mới</option>
+                        <option value="2">Đã duyệt</option>
+                        <option value="3">Đang giao</option>
+                        <option value="4">Hoàn tất</option>
+                        <option value="-1">Đã hủy</option>
+                        <option value="-2">Bị từ chối</option>
+                    </select>
+                </div>
+
+                <!-- Date From -->
+                <div class="col-md-2">
+                    <input type="date" asp-for="DateFrom" class="form-control" />
+                </div>
+
+                <!-- Date To -->
+                <div class="col-md-2">
+                    <input type="date" asp-for="DateTo" class="form-control" />
+                </div>
+
+                <!-- Button -->
+                <div class="col-md-1">
+                    <button class="btn btn-info w-100">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="searchResult"></div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            paginationSearch(null, document.getElementById("formSearch"), @Model.Page);
+        });
+    </script>
+}

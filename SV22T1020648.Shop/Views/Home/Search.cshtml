@@ -1,0 +1,81 @@
+﻿@model PagedResult<Product>
+@{
+    Layout = null;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+    <h5 class="fw-bold text-uppercase mb-0 text-primary">SẢN PHẨM NỔI BẬT</h5>
+    <span class="text-muted small">Tìm thấy <strong>@Model.RowCount</strong> sản phẩm</span>
+</div>
+
+@if (Model.DataItems.Count == 0)
+{
+    <div class="alert alert-warning text-center py-4 shadow-sm border-0">
+        <i class="bi bi-info-circle fs-4 d-block mb-2"></i>
+        Không tìm thấy sản phẩm nào phù hợp với yêu cầu của bạn.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-4">
+        @foreach (var item in Model.DataItems)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 product-card"
+                     style="cursor: pointer; transition: transform 0.2s;"
+                     onclick="window.location.href='/Home/ProductDetails/@item.ProductID'">
+
+                    <div class="position-relative">
+                        <img src="@(string.IsNullOrEmpty(item.Photo) ? "/images/products/nophoto.png" : "/images/products/" + item.Photo)"
+                             class="card-img-top p-3" alt="@item.ProductName" style="height: 180px; object-fit: contain;">
+
+                        @if (!item.IsSelling)
+                        {
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background: rgba(255,255,255,0.7);">
+                                <span class="badge bg-danger fs-6">Ngừng kinh doanh</span>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="card-body d-flex flex-column text-center p-3 border-top">
+                        <h6 class="card-title text-truncate mb-2" title="@item.ProductName">
+                            <a href="~/Home/ProductDetails/@item.ProductID" class="text-decoration-none text-dark fw-bold">@item.ProductName</a>
+                        </h6>
+                        <p class="text-danger fw-bold fs-5 mb-3 mt-auto">@item.Price.ToString("N0") <small class="text-decoration-underline">đ</small></p>
+
+                        <div class="input-group input-group-sm mb-2" onclick="event.stopPropagation();">
+                            <span class="input-group-text bg-light">Số lượng</span>
+                            <input type="number" id="qty-@item.ProductID" value="1" min="1" class="form-control text-center" />
+                        </div>
+
+                        <button onclick="event.stopPropagation(); addToCartWithQty(@item.ProductID)"
+                                class="btn btn-outline-primary btn-sm w-100 @(!item.IsSelling ? "disabled" : "")">
+                            <i class="bi bi-cart-plus"></i> Chọn mua
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (Model.PageCount > 1)
+    {
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-4">
+                @foreach (var p in Model.GetDisplayPages())
+                {
+                    if (p.IsEllipsis)
+                    {
+                        <li class="page-item disabled"><span class="page-link border-0">...</span></li>
+                    }
+                    else
+                    {
+                        <li class="page-item @(p.IsCurrent ? "active" : "")">
+                            <a class="page-link" href="javascript:;" onclick="doSearch(@p.Page)">@p.Page</a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+    }
+}
