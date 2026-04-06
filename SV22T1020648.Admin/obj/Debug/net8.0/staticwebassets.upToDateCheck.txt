@@ -3,6 +3,7 @@ wwwroot\favicon.ico
 wwwroot\images\employees\4a3e6425-4ce0-4e04-bbd2-9a71775f3937.jpg
 wwwroot\images\employees\nophoto.png
 wwwroot\images\photo\pngtree-new-product-demo-highway-sign-showcasing-merchandise-against-photo-photo-image_69812854.webp
+wwwroot\images\products\3607b85d-5d81-4fb7-ab37-dbe2d2f9b52f.png
 wwwroot\images\products\bf64538e-39f8-4e6a-bad8-72d3a0a3af26.webp
 wwwroot\images\products\demo.png
 wwwroot\images\products\nophoto.png

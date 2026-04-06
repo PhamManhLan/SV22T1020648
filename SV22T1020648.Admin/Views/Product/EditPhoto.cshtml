@@ -1,4 +1,4 @@
-﻿@model SV22T1020648.Models.Catalog.ProductPhoto
+﻿@model ProductPhoto
 
 @{
     ViewBag.Title = Model.PhotoID == 0 ? "Bổ sung ảnh" : "Cập nhật ảnh";
@@ -35,13 +35,6 @@
                 <label asp-for="DisplayOrder" class="control-label fw-bold">Thứ tự hiển thị:</label>
                 <input asp-for="DisplayOrder" class="form-control" type="number" min="0" />
                 <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <div class="form-check">
-                    <input asp-for="IsHidden" class="form-check-input" />
-                    <label asp-for="IsHidden" class="form-check-label">Ẩn ảnh này</label>
-                </div>
             </div>
 
             <div class="form-group mt-4">

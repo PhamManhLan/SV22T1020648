@@ -208,14 +208,18 @@ namespace SV22T1020648.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SavePassword(int employeeId, string userName, string newPassword, string confirmPassword)
         {
-            // 1. Kiểm tra mật khẩu khớp nhau
             if (newPassword != confirmPassword)
             {
                 TempData["ErrorMessage"] = "Xác nhận mật khẩu không khớp.";
                 return RedirectToAction("ChangePassword", new { id = employeeId });
             }
+            var checkSamePassword = await SecurityDataService.AuthorizeAsync(userName, newPassword);
+            if (checkSamePassword != null)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu mới không được trùng với mật khẩu cũ hiện tại.";
+                return RedirectToAction("ChangePassword", new { id = employeeId });
+            }
 
-            // 2. Gọi Service để đổi mật khẩu (Admin đổi nên không check pass cũ)
             bool result = await SecurityDataService.ChangePasswordAsync(userName, newPassword);
 
             if (result)

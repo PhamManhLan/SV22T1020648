@@ -3,30 +3,87 @@
     Layout = null;
 }
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Khách hàng</th>
-            <th>Thời gian</th>
-            <th>Trạng thái</th>
-            <th style="width:100px;"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.DataItems)
-        {
-            <tr>
-                <td>@item.CustomerName</td>
-                <td>@item.OrderTime.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    @item.Status.GetDescription()
-                </td>
-                <td class="text-center">
-                    <a href="~/Order/Detail/@item.OrderID" class="btn btn-sm btn-info">
-                        <i class="bi bi-eye"></i>
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@* 1. Hiển thị cảnh báo nếu có lỗi nhập liệu (Từ ngày > Đến ngày) *@
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger text-center mt-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @ViewBag.ErrorMessage
+    </div>
+}
+@* 2. Bắt lỗi không có dữ liệu trả về *@
+else if (Model.DataItems == null || Model.DataItems.Count == 0)
+{
+    <div class="alert alert-warning text-center mt-3">
+        <i class="bi bi-search me-2"></i>
+        Không tìm thấy đơn hàng nào phù hợp với điều kiện tìm kiếm.
+    </div>
+}
+@* 3. Vẽ bảng khi có dữ liệu hợp lệ *@
+else
+{
+    <div class="mb-2 text-muted mt-2">
+        Danh sách này có <strong>@Model.RowCount</strong> đơn hàng
+    </div>
+
+    <div class="card">
+        <div class="card-body p-1">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>Khách hàng</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                        <th style="width:100px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.DataItems)
+                    {
+                        <tr>
+                            <td>@item.CustomerName</td>
+                            <td>@item.OrderTime.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                @item.Status.GetDescription()
+                            </td>
+                            <td class="text-center">
+                                <a href="~/Order/Detail/@item.OrderID" class="btn btn-sm btn-info" title="Xem chi tiết">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer">
+            <ul class="pagination justify-content-center mb-0">
+                @foreach (var p in Model.GetDisplayPages())
+                {
+                    if (p.IsCurrent)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link">@p.Page</a>
+                        </li>
+                    }
+                    else if (p.IsEllipsis)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:;"
+                               onclick="paginationSearch(event, document.getElementById('formSearch'), @p.Page)">
+                                @p.Page
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+}

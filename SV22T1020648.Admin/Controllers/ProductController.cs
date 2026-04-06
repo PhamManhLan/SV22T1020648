@@ -59,6 +59,18 @@ namespace SV22T1020648.Admin.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Search(ProductSearchInput input)
         {
+            if (input.MinPrice < 0 || input.MaxPrice < 0)
+            {
+                ViewBag.ErrorMessage = "Vui lòng không nhập mức giá là số âm.";
+                return View(new PagedResult<Product> { DataItems = new List<Product>() });
+            }
+
+            if (input.MinPrice > input.MaxPrice && input.MaxPrice > 0)
+            {
+                ViewBag.ErrorMessage = "Mức giá 'Từ' không được lớn hơn mức giá 'Đến'.";
+                return View(new PagedResult<Product> { DataItems = new List<Product>() });
+            }
+
             var result = await CatalogDataService.ListProductsAsync(input);
             ApplicationContext.SetSessionData(PRODUCT_SEARCH, input);
             return View(result);
@@ -122,16 +134,25 @@ namespace SV22T1020648.Admin.Controllers
                 // Chuẩn hóa dữ liệu
                 if (string.IsNullOrEmpty(data.ProductDescription)) data.ProductDescription = "";
                 if (string.IsNullOrEmpty(data.Photo)) data.Photo = "";
+                // Biến Unit đã được bắt lỗi rỗng ở trên nên dòng dưới đây có thể để hoặc bỏ đều được
                 if (string.IsNullOrEmpty(data.Unit)) data.Unit = "";
 
                 if (!ModelState.IsValid)
                     return View("Edit", data);
 
-                // Lưu CSDL
+                // Đã sửa lỗi gõ nhầm dấu "/" ở dòng này
                 if (data.ProductID == 0)
+                {
+                    // Thêm mới
                     await CatalogDataService.AddProductAsync(data);
+                    TempData["SuccessMessage"] = "Thêm mặt hàng mới thành công!";
+                }
                 else
+                {
+                    // Cập nhật
                     await CatalogDataService.UpdateProductAsync(data);
+                    TempData["SuccessMessage"] = "Cập nhật thông tin mặt hàng thành công!";
+                }
 
                 return RedirectToAction("Index");
             }
@@ -151,16 +172,23 @@ namespace SV22T1020648.Admin.Controllers
         {
             if (Request.Method == "POST")
             {
-                await CatalogDataService.DeleteProductAsync(id);
+                bool canDelete = !(await CatalogDataService.IsUsedProductAsync(id));
+
+                if (canDelete)
+                {
+                    await CatalogDataService.DeleteProductAsync(id);
+                    TempData["SuccessMessage"] = "Xóa mặt hàng thành công!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Không thể xóa mặt hàng này vì đang có dữ liệu liên quan.";
+                }
                 return RedirectToAction("Index");
             }
-
             var model = await CatalogDataService.GetProductAsync(id);
-            if (model == null)
-                return RedirectToAction("Index");
+            if (model == null) return RedirectToAction("Index");
 
             ViewBag.CanDelete = !(await CatalogDataService.IsUsedProductAsync(id));
-
             return View(model);
         }
         /// <summary>

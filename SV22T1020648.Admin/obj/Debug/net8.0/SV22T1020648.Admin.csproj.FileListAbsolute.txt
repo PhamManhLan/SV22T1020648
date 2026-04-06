@@ -70,6 +70,7 @@ D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\SV22T1020
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\SV22T1020648.Admin.MvcApplicationPartsAssemblyInfo.cache
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\SV22T1020648.Admin.RazorAssemblyInfo.cache
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\SV22T1020648.Admin.RazorAssemblyInfo.cs
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\SV22T1020648.Admin.sourcelink.json
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\rjimswa.dswa.cache.json
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Admin\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json

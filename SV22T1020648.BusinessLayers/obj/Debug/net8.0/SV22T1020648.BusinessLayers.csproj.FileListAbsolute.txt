@@ -10,6 +10,7 @@ D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\SV22T1020648.BusinessLayers.AssemblyInfoInputs.cache
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\SV22T1020648.BusinessLayers.AssemblyInfo.cs
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\SV22T1020648.BusinessLayers.csproj.CoreCompileInputs.cache
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\SV22T1020648.BusinessLayers.sourcelink.json
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\SV22T102.55889D32.Up2Date
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\SV22T1020648.BusinessLayers.dll
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.BusinessLayers\obj\Debug\net8.0\refint\SV22T1020648.BusinessLayers.dll

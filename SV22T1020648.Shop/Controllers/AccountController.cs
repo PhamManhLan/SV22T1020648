@@ -136,27 +136,38 @@ namespace SV22T1020648.Shop.Controllers
         /// <param name="newPassword">Mật khẩu mới</param>
         /// <param name="confirmPassword">Xác nhận mật khẩu mới</param>
         /// <returns></returns>
+        /// <summary>
+        /// Xử lý yêu cầu đổi mật khẩu
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
+            var userData = User.GetUserData();
+            if (userData == null) return RedirectToAction("Login");
             if (string.IsNullOrWhiteSpace(newPassword) || newPassword != confirmPassword)
             {
                 ModelState.AddModelError("Error", "Mật khẩu mới không hợp lệ hoặc không khớp.");
                 return View();
             }
+            if (oldPassword == newPassword)
+            {
+                ModelState.AddModelError("Error", "Mật khẩu mới không được giống mật khẩu hiện tại.");
+                return View();
+            }
+            var checkOldPass = await SecurityDataService.AuthorizeAsync(userData.UserName, oldPassword);
 
-            var userData = User.GetUserData();
-            if (userData == null) return RedirectToAction("Login");
-
+            if (checkOldPass == null)
+            {
+                ModelState.AddModelError("Error", "Mật khẩu hiện tại không chính xác.");
+                return View();
+            }
             bool result = await SecurityDataService.ChangePasswordAsync(userData.UserName, newPassword);
-
             if (result)
             {
                 ViewBag.Message = "Đổi mật khẩu thành công!";
                 return View();
             }
-
-            ModelState.AddModelError("Error", "Đổi mật khẩu thất bại. Vui lòng thử lại.");
+            ModelState.AddModelError("Error", "Đổi mật khẩu thất bại. Hệ thống đang bận, vui lòng thử lại sau.");
             return View();
         }
 

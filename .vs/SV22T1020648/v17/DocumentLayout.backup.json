@@ -7,24 +7,16 @@
       "RelativeMoniker": "D:0:0:{E6AE3606-EED2-43F6-8ADD-35609D00AE68}|SV22T1020648.Shop\\SV22T1020648.Shop.csproj|solutionrelative:sv22t1020648.shop\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BA0A3F5-5290-4B0A-9EEA-CE82959D2DB9}|SV22T1020648.Admin\\SV22T1020648.Admin.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.admin\\appcodes\\selectlisthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BA0A3F5-5290-4B0A-9EEA-CE82959D2DB9}|SV22T1020648.Admin\\SV22T1020648.Admin.csproj|solutionrelative:sv22t1020648.admin\\appcodes\\selectlisthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD597D06-B488-492E-846C-F5EFEF898D83}|SV22T1020648.BusinessLayers\\SV22T1020648.BusinessLayers.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.businesslayers\\salesdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD597D06-B488-492E-846C-F5EFEF898D83}|SV22T1020648.BusinessLayers\\SV22T1020648.BusinessLayers.csproj|solutionrelative:sv22t1020648.businesslayers\\salesdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CD597D06-B488-492E-846C-F5EFEF898D83}|SV22T1020648.BusinessLayers\\SV22T1020648.BusinessLayers.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.businesslayers\\securitydataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CD597D06-B488-492E-846C-F5EFEF898D83}|SV22T1020648.BusinessLayers\\SV22T1020648.BusinessLayers.csproj|solutionrelative:sv22t1020648.businesslayers\\securitydataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6AE3606-EED2-43F6-8ADD-35609D00AE68}|SV22T1020648.Shop\\SV22T1020648.Shop.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.shop\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E6AE3606-EED2-43F6-8ADD-35609D00AE68}|SV22T1020648.Shop\\SV22T1020648.Shop.csproj|solutionrelative:sv22t1020648.shop\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{541785CE-8D84-452A-B549-304816B6B43B}|SV22T1020648.DataLayers\\SV22T1020648.DataLayers.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.datalayers\\sqlserver\\customeraccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541785CE-8D84-452A-B549-304816B6B43B}|SV22T1020648.DataLayers\\SV22T1020648.DataLayers.csproj|solutionrelative:sv22t1020648.datalayers\\sqlserver\\customeraccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BA0A3F5-5290-4B0A-9EEA-CE82959D2DB9}|SV22T1020648.Admin\\SV22T1020648.Admin.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.admin\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BA0A3F5-5290-4B0A-9EEA-CE82959D2DB9}|SV22T1020648.Admin\\SV22T1020648.Admin.csproj|solutionrelative:sv22t1020648.admin\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E6AE3606-EED2-43F6-8ADD-35609D00AE68}|SV22T1020648.Shop\\SV22T1020648.Shop.csproj|d:\\visual studio 2022\\sv22t1020648\\sv22t1020648.shop\\views\\account\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6AE3606-EED2-43F6-8ADD-35609D00AE68}|SV22T1020648.Shop\\SV22T1020648.Shop.csproj|solutionrelative:sv22t1020648.shop\\views\\account\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,58 +26,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SelectListHelper.cs",
-              "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Admin\\AppCodes\\SelectListHelper.cs",
-              "RelativeDocumentMoniker": "SV22T1020648.Admin\\AppCodes\\SelectListHelper.cs",
-              "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Admin\\AppCodes\\SelectListHelper.cs",
-              "RelativeToolTip": "SV22T1020648.Admin\\AppCodes\\SelectListHelper.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAowFQAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T11:49:57.657Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SalesDataService.cs",
-              "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.BusinessLayers\\SalesDataService.cs",
-              "RelativeDocumentMoniker": "SV22T1020648.BusinessLayers\\SalesDataService.cs",
-              "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.BusinessLayers\\SalesDataService.cs",
-              "RelativeToolTip": "SV22T1020648.BusinessLayers\\SalesDataService.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAcwDcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T11:47:17.714Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "SecurityDataService.cs",
               "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.BusinessLayers\\SecurityDataService.cs",
               "RelativeDocumentMoniker": "SV22T1020648.BusinessLayers\\SecurityDataService.cs",
               "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.BusinessLayers\\SecurityDataService.cs",
               "RelativeToolTip": "SV22T1020648.BusinessLayers\\SecurityDataService.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBwAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAACUAAAAAAAAAAAAUwD0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T10:48:08.958Z",
+              "WhenOpened": "2026-04-06T16:07:58.69Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Shop\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "SV22T1020648.Shop\\Controllers\\OrderController.cs",
-              "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Shop\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "SV22T1020648.Shop\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwEwAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "CustomerAccountRepository.cs",
+              "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.DataLayers\\SQLServer\\CustomerAccountRepository.cs",
+              "RelativeDocumentMoniker": "SV22T1020648.DataLayers\\SQLServer\\CustomerAccountRepository.cs",
+              "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.DataLayers\\SQLServer\\CustomerAccountRepository.cs",
+              "RelativeToolTip": "SV22T1020648.DataLayers\\SQLServer\\CustomerAccountRepository.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAUwEoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T10:44:19.138Z",
+              "WhenOpened": "2026-04-06T16:07:51.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Shop\\Views\\Account\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "SV22T1020648.Shop\\Views\\Account\\ChangePassword.cshtml",
+              "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Shop\\Views\\Account\\ChangePassword.cshtml",
+              "RelativeToolTip": "SV22T1020648.Shop\\Views\\Account\\ChangePassword.cshtml",
+              "ViewState": "AgIAACMAAAAAAAAAAAAcwDwAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-06T16:07:33.794Z",
               "EditorCaption": ""
             },
             {
@@ -96,22 +75,9 @@
               "RelativeDocumentMoniker": "SV22T1020648.Shop\\Controllers\\AccountController.cs",
               "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Shop\\Controllers\\AccountController.cs",
               "RelativeToolTip": "SV22T1020648.Shop\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAUwAUBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAJgAAAAAAAAAAAAcwKgAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T10:44:04.772Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Admin\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "SV22T1020648.Admin\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\Visual studio 2022\\SV22T1020648\\SV22T1020648.Admin\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "SV22T1020648.Admin\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAA1wA0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T10:43:48.992Z",
+              "WhenOpened": "2026-04-06T16:07:19.252Z",
               "EditorCaption": ""
             }
           ]

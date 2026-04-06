@@ -97,11 +97,13 @@ namespace SV22T1020648.DataLayers.SQLServer
             {
                 await connection.OpenAsync();
                 string sql = @"SELECT o.*, 
-                              c.CustomerName, 
-                              c.Address AS CustomerPermanentAddress, -- Đổi tên để tránh nhầm
-                              c.Phone AS CustomerPhone
+                              c.CustomerName, c.ContactName AS CustomerContactName, c.Phone AS CustomerPhone, c.Email AS CustomerEmail, c.Address AS CustomerAddress,
+                              e.FullName AS EmployeeName,
+                              s.ShipperName, s.Phone AS ShipperPhone
                        FROM Orders AS o
                        LEFT JOIN Customers AS c ON o.CustomerID = c.CustomerID
+                       LEFT JOIN Employees AS e ON o.EmployeeID = e.EmployeeID
+                       LEFT JOIN Shippers AS s ON o.ShipperID = s.ShipperID
                        WHERE o.OrderID = @OrderID";
                 return await connection.QueryFirstOrDefaultAsync<OrderViewInfo>(sql, new { OrderID = orderID });
             }
@@ -140,12 +142,17 @@ namespace SV22T1020648.DataLayers.SQLServer
                 await connection.OpenAsync();
 
                 string sql = @"UPDATE Orders 
-                               SET CustomerID = @CustomerID, OrderTime = @OrderTime, 
-                                   DeliveryProvince = @DeliveryProvince, DeliveryAddress = @DeliveryAddress, 
-                                   EmployeeID = @EmployeeID, AcceptTime = @AcceptTime, 
-                                   ShipperID = @ShipperID, ShippedTime = @ShippedTime, 
-                                   FinishedTime = @FinishedTime, Status = @Status
-                               WHERE OrderID = @OrderID";
+                       SET CustomerID = @CustomerID, 
+                           OrderTime = @OrderTime, 
+                           DeliveryProvince = @DeliveryProvince, 
+                           DeliveryAddress = @DeliveryAddress, 
+                           EmployeeID = @EmployeeID, 
+                           AcceptTime = @AcceptTime, 
+                           ShipperID = @ShipperID, 
+                           ShippedTime = @ShippedTime, 
+                           FinishedTime = @FinishedTime, 
+                           Status = @Status
+                       WHERE OrderID = @OrderID";
 
                 return await connection.ExecuteAsync(sql, data) > 0;
             }

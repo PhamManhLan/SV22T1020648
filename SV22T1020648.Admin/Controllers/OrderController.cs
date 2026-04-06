@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SV22T1020648.BusinessLayers;
 using SV22T1020648.Models.Catalog;
+using SV22T1020648.Models.Common;
 using SV22T1020648.Models.Sales;
 
 namespace SV22T1020648.Admin.Controllers
@@ -45,7 +46,16 @@ namespace SV22T1020648.Admin.Controllers
         /// </summary>
         public async Task<IActionResult> Search(OrderSearchInput input)
         {
+            if (input.DateFrom.HasValue && input.DateTo.HasValue && input.DateFrom.Value > input.DateTo.Value)
+            {
+                ViewBag.ErrorMessage = "Thời gian 'Từ ngày' không được lớn hơn 'Đến ngày'.";
+
+                return View(new PagedResult<OrderViewInfo> { DataItems = new List<OrderViewInfo>() });
+            }
+
             var result = await SalesDataService.ListOrdersAsync(input);
+
+            // Chỉ lưu điều kiện tìm kiếm vào session khi dữ liệu hợp lệ
             ApplicationContext.SetSessionData(ORDER_SEARCH, input);
 
             return View(result);

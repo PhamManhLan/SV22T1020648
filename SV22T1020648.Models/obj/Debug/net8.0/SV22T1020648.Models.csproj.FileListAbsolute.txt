@@ -5,6 +5,7 @@ D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T102
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T1020648.Models.AssemblyInfoInputs.cache
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T1020648.Models.AssemblyInfo.cs
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T1020648.Models.csproj.CoreCompileInputs.cache
+D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T1020648.Models.sourcelink.json
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T1020648.Models.dll
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\refint\SV22T1020648.Models.dll
 D:\Visual studio 2022\SV22T1020648\SV22T1020648.Models\obj\Debug\net8.0\SV22T1020648.Models.pdb

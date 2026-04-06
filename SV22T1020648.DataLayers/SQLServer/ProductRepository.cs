@@ -103,7 +103,13 @@ namespace SV22T1020648.DataLayers.SQLServer
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string sql = "DELETE FROM Products WHERE ProductID = @ProductID";
+
+                string sql = @"
+                    DELETE FROM ProductAttributes WHERE ProductID = @ProductID;
+                    DELETE FROM ProductPhotos WHERE ProductID = @ProductID;
+                    DELETE FROM Products WHERE ProductID = @ProductID;
+                ";
+
                 return await connection.ExecuteAsync(sql, new { ProductID = productID }) > 0;
             }
         }

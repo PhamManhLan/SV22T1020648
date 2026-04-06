@@ -2,55 +2,113 @@
 @{
     Layout = null;
 }
-<table class="table table-bordered table-hover align-middle">
-    <thead class="table-light">
-        <tr>
-            <th>Tên hàng</th>
-            <th>Đơn vị</th>
-            <th>Giá</th>
-            <th class="text-center">Trạng thái</th>
-            <th style="width:160px;" class="text-center">Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.DataItems)
-        {
-            <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Unit</td>
-                <td>@item.Price.ToString("N0") đ</td>
-                <td class="text-center">
-                    @if (item.IsSelling)
+
+@* 1. Hiển thị cảnh báo nếu có lỗi nhập liệu (giá âm, giá từ > giá đến) *@
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger text-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @ViewBag.ErrorMessage
+    </div>
+}
+@* 2. Bắt lỗi không có dữ liệu trả về *@
+else if (Model.DataItems == null || Model.DataItems.Count == 0)
+{
+    <div class="alert alert-warning text-center mt-3">
+        <i class="bi bi-search me-2"></i>
+        Không tìm thấy mặt hàng nào phù hợp với điều kiện tìm kiếm.
+    </div>
+}
+@* 3. Chỉ vẽ bảng khi thực sự có dữ liệu *@
+else
+{
+    <div class="mb-2 text-muted">
+        Danh sách này có <strong>@Model.RowCount</strong> mặt hàng
+    </div>
+
+    <div class="card">
+        <div class="card-body p-1">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>Tên hàng</th>
+                        <th>Đơn vị</th>
+                        <th>Giá</th>
+                        <th class="text-center">Trạng thái</th>
+                        <th style="width:160px;" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.DataItems)
                     {
-                        <span class="badge bg-success">Đang bán</span>
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Unit</td>
+                            <td>@item.Price.ToString("N0") đ</td>
+                            <td class="text-center">
+                                @if (item.IsSelling)
+                                {
+                                    <span class="badge bg-success">Đang bán</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Ngừng bán</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a href="~/Product/Detail/@item.ProductID"
+                                       class="btn btn-info"
+                                       title="Xem chi tiết">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+
+                                    <a href="~/Product/Edit/@item.ProductID"
+                                       class="btn btn-primary"
+                                       title="Cập nhật">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                    <a href="~/Product/Delete/@item.ProductID"
+                                       class="btn btn-danger open-modal"
+                                       title="Xóa">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer">
+            <ul class="pagination justify-content-center mb-0">
+                @foreach (var p in Model.GetDisplayPages())
+                {
+                    if (p.IsCurrent)
+                    {
+                        <li class="page-item active">
+                            <a class="page-link">@p.Page</a>
+                        </li>
+                    }
+                    else if (p.IsEllipsis)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
                     }
                     else
                     {
-                        <span class="badge bg-secondary">Ngừng bán</span>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:;"
+                               onclick="paginationSearch(event, document.getElementById('formSearch'), @p.Page)">
+                                @p.Page
+                            </a>
+                        </li>
                     }
-                </td>
-                <td class="text-center">
-                    <div class="btn-group btn-group-sm">
-                        <a href="~/Product/Detail/@item.ProductID"
-                           class="btn btn-info"
-                           title="Xem chi tiết">
-                            <i class="bi bi-eye"></i>
-                        </a>
-
-                        <a href="~/Product/Edit/@item.ProductID"
-                           class="btn btn-primary"
-                           title="Cập nhật">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-
-                        <a href="~/Product/Delete/@item.ProductID"
-                           class="btn btn-danger open-modal"
-                           title="Xóa">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                }
+            </ul>
+        </div>
+    </div>
+}
